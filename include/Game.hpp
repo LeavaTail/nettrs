@@ -19,6 +19,17 @@
 #define debug_game(str) do { } while (0)
 #endif
 
+#define move_block(position, x_diff, y_diff)                    \
+  do {                                                          \
+    bool status = false;                                        \
+    for (int i = 0; i < BLOCK_COUNT && !status; i++) {          \
+      int x = block -> get_block_x(i);                          \
+      int y = block -> get_block_y(i);                          \
+      status = stage -> get_grid_status(x + x_diff, y + y_diff);\
+    }                                                           \
+    block -> move_block_##position(status);                     \
+  } while (0)
+
 #define SINGLELINE_SCORE  40
 #define DOUBLELINE_SCORE  100
 #define TRIPLELINE_SCORE  300
