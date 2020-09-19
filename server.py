@@ -1,5 +1,5 @@
 import math
-from pygase import Gamestate, Backend
+from pygase import GameState, Backend
 from Block import Block
 from pygame.locals import * 
 import pygame
