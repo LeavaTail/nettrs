@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - $PWD:/work:ro
+    hostname: server
+    user: root
+    tty: true
+
+  client1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - $PWD:/work:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      DISPLAY: unix$DISPLAY
+    hostname: client1
+    user: nettrs
+    tty: true
+
+  client2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - $PWD:/work:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      DISPLAY: unix$DISPLAY
+    hostname: client2
+    user: nettrs
+    tty: true
