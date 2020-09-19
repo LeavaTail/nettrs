@@ -7,9 +7,15 @@ services:
       dockerfile: Dockerfile
     volumes:
       - $PWD:/work:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ${XDG_RUNTIME_DIR}/pulse/native:${XDG_RUNTIME_DIR}/pulse/native
+      - ~/.config/pulse/cookie:/root/.config/pulse/cookie 
+      - /media/dyan/project/projects/voice/:/data/voice/
     hostname: server
     user: root
     tty: true
+    devices:
+      - "/dev/snd"
 
   client1:
     build:
@@ -18,11 +24,16 @@ services:
     volumes:
       - $PWD:/work:ro
       - /tmp/.X11-unix:/tmp/.X11-unix
+      - ${XDG_RUNTIME_DIR}/pulse/native:${XDG_RUNTIME_DIR}/pulse/native
+      - ~/.config/pulse/cookie:/root/.config/pulse/cookie 
+      - /media/dyan/project/projects/voice/:/data/voice/
     environment:
       DISPLAY: unix$DISPLAY
     hostname: client1
     user: nettrs
     tty: true
+    devices:
+      - "/dev/snd"
 
   client2:
     build:
@@ -31,8 +42,13 @@ services:
     volumes:
       - $PWD:/work:ro
       - /tmp/.X11-unix:/tmp/.X11-unix
+      - ${XDG_RUNTIME_DIR}/pulse/native:${XDG_RUNTIME_DIR}/pulse/native
+      - ~/.config/pulse/cookie:/root/.config/pulse/cookie 
+      - /media/dyan/project/projects/voice/:/data/voice/
     environment:
       DISPLAY: unix$DISPLAY
     hostname: client2
     user: nettrs
     tty: true
+    devices:
+      - "/dev/snd"
