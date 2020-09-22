@@ -16,6 +16,8 @@ ENV TZ=Asia/Tokyo
 RUN apt-get -y install \
         python3 \
         python3-pip \
+        alsa-base \
+        pulseaudio \
         libsdl-dev \
         libsdl-image1.2-dev \
         libsdl-mixer1.2-dev \
@@ -31,5 +33,5 @@ RUN apt-get -y install \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN useradd -ms /bin/bash nettrs
+RUN useradd -ms /bin/bash nettrs && groupadd $(getent group audio | cut -d: -f3)
 CMD ["/bin/sh"]
