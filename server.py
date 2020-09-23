@@ -2,9 +2,17 @@ import os
 import random
 import socket
 import pickle
+from pygame.locals import * 
 
 ip_address = "127.0.0.1"
 port = 5000
+
+def reverse_key(key):
+  if key == K_LEFT:
+    return K_RIGHT
+  elif key == K_RIGHT:
+    return K_LEFT
+  return K_DOWN
 
 if __name__ == "__main__":
   with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -15,10 +23,9 @@ if __name__ == "__main__":
 
       with conn:
         while True:
-          data = conn.recv(1024)
-          if not data:
+          raw = conn.recv(1024)
+          if not raw:
             break
-          arr = pickle.loads(data)
-          new = [i + random.randint(-100,100) for i in arr]
-          print(new)
-          conn.sendall(pickle.dumps(new))
+          data = pickle.loads(raw)
+          key = reverse_key(data)
+          conn.sendall(pickle.dumps(key))
