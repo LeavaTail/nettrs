@@ -55,52 +55,28 @@ void Game::handleEvents() {
         //move block to right
         case SDLK_d:
         case SDLK_RIGHT: {
-          bool status = false;
-          for (int i = 0; i < BLOCK_COUNT && !status; i++) {
-            int x = block -> get_block_x(i);
-            int y = block -> get_block_y(i);
-            status = stage -> get_grid_status(x + BLOCK_WIDTH, y);
-          }
-          block -> move_block_right(status);
+          move_block(right, BLOCK_WIDTH, 0);
           break;
         }
         //move block to left
         case SDLK_a:
         case SDLK_LEFT: {
-          bool status = false;
-          for (int i = 0; i < BLOCK_COUNT && !status; i++) {
-            int x = block -> get_block_x(i);
-            int y = block -> get_block_y(i);
-            status = stage -> get_grid_status(x - BLOCK_WIDTH, y);
-          }
-          block -> move_block_left(status);
+          move_block(left, - BLOCK_WIDTH, 0);
           break;
         }
         //move block down fast
         case SDLK_s:
         case SDLK_DOWN: {
-          bool status = false;
           BlockStart = SDL_GetTicks();
-          for (int i = 0; i < BLOCK_COUNT && !status; i++) {
-            int x = block -> get_block_x(i);
-            int y = block -> get_block_y(i);
-            status = stage -> get_grid_status(x, y + BLOCK_HEIGHT);
-          }
-          block -> move_block_downfast(status);
+          move_block(downfast, 0, BLOCK_HEIGHT);
           break;
         }
         //move block down fast
         case SDLK_w:
         case SDLK_UP: {
           while (!block -> Dead()) {
-            bool status = false;
             BlockStart = SDL_GetTicks();
-            for (int i = 0; i < BLOCK_COUNT && !status; i++) {
-              int x = block -> get_block_x(i);
-              int y = block -> get_block_y(i);
-              status = stage -> get_grid_status(x, y + BLOCK_HEIGHT);
-            }
-            block -> move_block_downfast(status);
+            move_block(downfast, 0, BLOCK_HEIGHT);
           }
           break;
         }
@@ -190,13 +166,7 @@ void Game::update(){
   } else {
     if ((SDL_GetTicks() - BlockStart) > gravity) {
       BlockStart = SDL_GetTicks();
-      bool status = false;
-      for (int i = 0; i < BLOCK_COUNT && !status; i++) {
-        int x = block -> get_block_x(i);
-        int y = block -> get_block_y(i);
-        status = stage -> get_grid_status(x, y + BLOCK_HEIGHT);
-      }
-      block -> move_block_downfast(status);
+      move_block(downfast, 0, BLOCK_HEIGHT);
     }
   }
 }
