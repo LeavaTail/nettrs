@@ -1,12 +1,15 @@
 # nettrs
 ネットワーク対戦型テトリスを作りたい
 
-## 一人用のテトリスから
+* [ ] 一人用のテトリスから
+
+## Usage
 ### Build with Host
-1. buildディレクトリ作る
-2. cd ./build
-3. cmake ../
-4. make
+1. Install requirement package
+2. Execute python script
+```shell
+$ python3 Nettrs.py
+```
 
 ### Build with Docker
 1. Build Docker Image
@@ -19,4 +22,6 @@ $ docker build -t nettrs .
 $ docker run --rm -u nettrs -v $PWD:/work:ro -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY --name nettrs -it nettrs python3 Nettrs.py
 ```
 
-関数の中身何も実装シてないからまだ動かないヨ！！
+## Requirement
+* [numpy](https://numpy.org/)
+* [pygame](https://www.pygame.org/news)
