@@ -22,9 +22,9 @@ class Block(pygame.sprite.Sprite):
     for sblock in self.stage.sprites():
       if (self.rect.right == sblock.rect.right) and (self.rect.bottom == sblock.rect.top):
         self.isdead = True
-      if (self.rect.bottom > 350):
+    if (self.rect.bottom > 350):
         self.isdead = True
-      if self.isdead == False:
+    if self.isdead == False:
         self.rect.move_ip(0, 50)
 
   def move_dfast(self):
