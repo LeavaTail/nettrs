@@ -39,6 +39,7 @@ if __name__ == "__main__":
   screen = pygame.display.set_mode(SCREEN.size)
   pygame.display.set_caption(title)
   Stage = pygame.sprite.RenderUpdates()
+  b = (4, 0)
 
   block = Block("test.png", 150, 0, Stage)
   b_group = pygame.sprite.RenderUpdates()
@@ -48,6 +49,7 @@ if __name__ == "__main__":
   clock = pygame.time.Clock()
   with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((server_ip, port))
+    s.sendall(pickle.dumps(b))
     while True:
       clock.tick(30)
       for event in pygame.event.get():
@@ -55,14 +57,13 @@ if __name__ == "__main__":
           pygame.quit()       # Pygameの終了(画面閉じられる)
           sys.exit()
         elif event.type == KEYDOWN:
-          s.sendall(pickle.dumps(event.key))
-          raw = s.recv(1024)
-          if not raw:
-            break
-          data = pickle.loads(raw)
-          key_handle(data,block,b_group)
+          key_handle(event.key,block,b_group)
+          b = tuple(map(lambda x: x // 50, block.rect.center))
+          s.sendall(pickle.dumps(b))
           if b_group.sprites()[0].isdead:
             Stage,b_group,block = Next_Ball(b_group,Stage)
+            b = (4, 0)
+            s.sendall(pickle.dumps(b))
             is_full,lower_rows = Check_Stage(Stage)
             if is_full:
               clear_row(Stage,lower_rows)
